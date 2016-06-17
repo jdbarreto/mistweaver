@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+<div align="center">
+	<p:growl id="growl" life="2000"/>
+	<h:panelGrid columns="2">
+		<p:outputLabel value="Email:" for="email" />
+		<p:inputText value="#{userController.email}" id="email" name="email"
+			required="true" requiredMessage="O email é obrigatório!" />
+		<p:outputLabel value="Senha: " for="password" />
+		<p:password value="#{userController.password}" id="password"
+			required="true" requiredMessage="A senha é obrigatória!" />
+		<p:commandButton value="Login" icon="ui-icon-key"
+			actionListener="#{userController.doLogin('character')}" 
+			update=":frmConteudo:pnlConteudo,:frmMenu"/>
+			<p:commandButton value="Registrar-se" immediate="true" icon="ui-icon-plus"
+			actionListener="#{userController.doRegister('register')}" update=":frmConteudo:pnlConteudo,:frmMenu:pnlMenu"/>
+	</h:panelGrid>
+</div>
+</ui:composition>
+</html>

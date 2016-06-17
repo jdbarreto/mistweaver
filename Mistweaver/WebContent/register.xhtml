@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<div align="left">
+		<p:growl id="growl" life="2000" />
+		<h:panelGrid columns="2">
+
+			<p:outputLabel for="nome" value="Nome: " style="font-weight:bold" />
+			<p:inputText id="nome" value="#{userController.user.name}"
+				required="true" />
+			<p:outputLabel for="phone" value="Telefone: "
+				style="font-weight:bold" />
+			<p:inputText id="phone" value="#{userController.user.phone}" />
+
+			<p:outputLabel for="sex" value="Sexo: " style="font-weight:bold" />
+			<p:selectOneRadio id="sex" value="#{userController.user.sex}">
+				<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+				<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+			</p:selectOneRadio>
+
+			<p:outputLabel value="Estado" for="selectState" style="font-weight:bold" />
+			<p:selectOneMenu id="selectState" style="width: 100% !important"
+				value="#{userController.selectedState}"
+				converter="#{stateConverter}" required="true">
+				<p:ajax listener="#{userController.filterCityByStates}"
+					update="selectCity" />
+				<f:selectItem itemLabel="Selecione o estado"
+					noSelectionOption="true" itemValue="" />
+				<f:selectItems value="#{userController.states}" var="state"
+					itemLabel="#{state.state}" itemValue="#{state}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Cidade" for="selectCity"
+				style="font-weight:bold" />
+			<p:selectOneMenu id="selectCity" style="width: 100% !important"
+				value="#{userController.user.city}" converter="#{cityConverter}"
+				required="true">
+				<f:selectItem itemLabel="Selecione a cidade"
+					noSelectionOption="true" itemValue="" />
+				<f:selectItems value="#{userController.cities}" var="city"
+					itemLabel="#{city.city}" itemValue="#{city}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="email" value="E-mail: " style="font-weight:bold" />
+			<p:inputText id="email" value="#{userController.user.email}"
+				required="true" validatorMessage="E-mail inválido!">
+				<f:validateRegex
+					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$">
+				</f:validateRegex>
+			</p:inputText>
+
+			<p:outputLabel for="senha" value="Senha: " style="font-weight:bold" />
+			<p:password id="senha" value="#{userController.user.password}"
+				required="true" match="conf" validatorMessage="Senha não confere!" />
+
+			<p:outputLabel for="conf" value="Confere senha: "
+				style="font-weight:bold" />
+			<p:password id="conf" required="true" onblur="#{userController}" />
+			<p:commandButton value="Incluir" id="btnIncluir" icon="ui-icon-plus"
+				actionListener="#{userController.userInsert('login')}"
+				update=":frmConteudo:pnlConteudo,:frmMenu:pnlUsuario,growl"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+		</h:panelGrid>
+	</div>
+</ui:composition>
+</html>

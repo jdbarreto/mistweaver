@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Mistweaver</title>
+	<style type="text/css">
+body {
+	background-color: #eeeeee;
+	font-size: 12px
+}
+</style>
+</h:head>
+<h:body>
+	<div align="center">
+		<p:layout style="min-width:1020px;max-width:1020px" fullPage="true">
+			<p:layoutUnit position="north" resizable="true">
+				<h:graphicImage url="/images/topo.png" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="220">
+				<h:form id="frmMenu">
+					<p:panel id="pnlUsuario" rendered="#{userController.logged}">
+						<div>
+							<div align="center">
+								<p:outputLabel value="#{userController.loggedUser.name}">
+								</p:outputLabel>
+							</div>
+							<div align="center">
+								<p:commandButton value="Logout" id="btnLogout"
+									icon="ui-icon-closethick"
+									actionListener="#{userController.doLogout('login')}"
+									update=":frmMenu, :frmConteudo:pnlConteudo">
+								</p:commandButton>
+							</div>
+						</div>
+					</p:panel>
+					<p:panel id="pnlMenu">
+						<p:menu id="menu">
+							<p:submenu label="Menu">
+								<p:menuitem value="Login" icon="ui-icon-key"
+									rendered="#{!userController.logged}"
+									action="#{menuController.setPage('login')}"
+									update=":frmMenu, :frmConteudo:pnlConteudo" />
+
+								<p:menuitem value="Registrar-se" icon="ui-icon-contact"
+									rendered="#{!userController.logged}"
+									action="#{menuController.setPage('register')}"
+									update=":frmConteudo:pnlConteudo,:frmMenu" />
+									
+								<p:menuitem value="Personagens" icon="ui-icon-person"
+									rendered="#{userController.logged}"
+									action="#{menuController.setPage('character')}"
+									update=":frmMenu:pnlUsuario,:frmConteudo:pnlConteudo," />
+							</p:submenu>
+						</p:menu>
+					</p:panel>
+				</h:form>
+			</p:layoutUnit>
+
+			<!-- 		Inicia meio! -->
+			<p:layoutUnit position="center" id="centro">
+				<h:form id="frmConteudo" enctype="multipart/form-data">
+					<p:panel id="pnlConteudo">
+						<ui:include src="#{menuController.page}.xhtml" />
+					</p:panel>
+				</h:form>
+			</p:layoutUnit>
+			<!--		 Fim meio -->
+			<p:layoutUnit position="south">
+               Jessye's Project 2016
+			</p:layoutUnit>
+		</p:layout>
+	</div>
+</h:body>
+</html>

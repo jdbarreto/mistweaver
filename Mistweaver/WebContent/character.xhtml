@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<div align="left">
+		<p:growl id="growl" life="2000" />
+		<h:panelGrid>
+			<p:outputLabel style="font-weight:bold">Criando personagem lvl 1!</p:outputLabel>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome do personagem: " for="characterName"
+					style="font-weight:bold" />
+				<p:inputText value="#{characterController.character.characterName}"
+					id="characterName" required="true" />
+				<p:outputLabel for="sex" value="Sexo: " style="font-weight:bold" />
+				<p:selectOneRadio id="sex"
+					value="#{characterController.character.characterSex}">
+					<f:selectItem itemLabel="Homem" itemValue="Homem" />
+					<f:selectItem itemLabel="Mulher" itemValue="Mulher" />
+				</p:selectOneRadio>
+
+				<p:outputLabel value="Raça" for="selectRace"
+					style="font-weight:bold" />
+				<p:selectOneMenu id="selectRace" style="width: 100% !important"
+					value="#{characterController.character.race}"
+					converter="#{raceConverter}" required="true">
+					<f:selectItem itemLabel="Selecione a raça do personagem"
+						noSelectionOption="true" itemValue="" />
+					<f:selectItems value="#{characterController.races}" var="race"
+						itemLabel="#{race.raceName}" itemValue="#{race}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Classe" for="selectCharacterClass"
+					style="font-weight:bold" />
+				<p:selectOneMenu id="selectCharacterClass"
+					style="width: 100% !important"
+					value="#{characterController.character.characterClass}"
+					converter="#{characterClassConverter}" required="true">
+					<f:selectItem itemLabel="Selecione a classe do personagem"
+						noSelectionOption="true" itemValue="" />
+					<f:selectItems value="#{characterController.characterClasses}"
+						var="characterClass" itemLabel="#{characterClass.className}"
+						itemValue="#{characterClass}" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" id="btnSalvar"
+					actionListener="#{characterController.persistCharacter}"
+					process="@form" update="@form,characterTable">
+				</p:commandButton>
+				<p:commandButton value="Nova" id="btnNovo"
+					actionListener="#{characterController.criarNova}" process="@this"
+					update="@form, growl">
+				</p:commandButton>
+			</h:panelGrid>
+		</h:panelGrid>
+
+		<!-- 		<h:form> -->
+		<p:dataTable id="characterTable"
+			value="#{characterController.characters}" var="character"
+			paginator="true" rows="5" lazy="true">
+			<p:column headerText="Nome Personagem">
+				<h:outputText value="#{character.characterName}" />
+			</p:column>
+			<p:column headerText="Sexo">
+				<h:outputText value="#{character.characterSex}" />
+			</p:column>
+			<p:column headerText="Raça">
+				<h:outputText value="#{character.race.raceName}" />
+			</p:column>
+			<p:column headerText="Classe">
+				<h:outputText value="#{character.characterClass.className}" />
+			</p:column>
+			<p:column headerText="Criado em">
+				<h:outputText value="#{character.createDate}" />
+			</p:column>
+			<p:column>
+				<p:commandButton value="Excluir" id="btnExcluir">
+					<p:ajax listener="#{characterController.remove(character.id)}"
+						update="characterTable">
+					</p:ajax>
+
+					<p:confirm header="Confirmação" message="Confirma a exclusão?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+
+				<p:commandButton value="Alterar personagem"
+					update="@form,characterTable"
+					action="#{characterController.alter(character)}" />
+			</p:column>
+		</p:dataTable>
+		<!-- 		</h:form> -->
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</div>
+</ui:composition>
+</html>
