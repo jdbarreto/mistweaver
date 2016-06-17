@@ -82,7 +82,7 @@
 			<p:column>
 				<p:commandButton value="Excluir" id="btnExcluir">
 					<p:ajax listener="#{characterController.remove(character.id)}"
-						update="characterTable">
+						update="@form,characterTable">
 					</p:ajax>
 
 					<p:confirm header="Confirmação" message="Confirma a exclusão?"

@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -21,7 +20,6 @@ import entity.User;
 import service.CharacterClassService;
 import service.CharacterService;
 import service.RaceService;
-import service.UserService;
 
 @Named
 @ViewScoped
@@ -35,12 +33,10 @@ public class CharacterController implements Serializable {
 
 	private List<Race> races;
 
-	private User user;
-
 	private List<CharacterClass> characterClasses;
 
 	@Inject
-	private UserController UserController;
+	private UserController userController;
 
 	@Inject
 	private CharacterClassService characterClassService;
@@ -51,17 +47,11 @@ public class CharacterController implements Serializable {
 	@Inject
 	private RaceService raceService;
 
-	private List<Character> characters;
-
 	private String characterName;
 
 	private Race race;
 
 	private CharacterClass characterClass;
-
-	public void characterList() {
-		characters = characterService.characterList();
-	}
 
 	public Character getCharacter() {
 		return character;
@@ -104,11 +94,8 @@ public class CharacterController implements Serializable {
 	}
 
 	public List<Character> getCharacters() {
-		return characters;
-	}
-
-	public void setCharacters(List<Character> characters) {
-		this.characters = characters;
+		User u  = userController.getLoggedUser();
+		return characterService.characterList(u);
 	}
 
 	public boolean isInclude() {
@@ -119,20 +106,12 @@ public class CharacterController implements Serializable {
 		this.include = include;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public UserController getUserController() {
-		return UserController;
+		return userController;
 	}
 
 	public void setUserController(UserController userController) {
-		UserController = userController;
+		this.userController = userController;
 	}
 
 	public String getCharacterName() {
@@ -162,11 +141,9 @@ public class CharacterController implements Serializable {
 	@PostConstruct
 	public void init() {
 		include = true;
-		user = UserController.getLoggedUser();
 		character = new Character();
 		races = raceService.raceList();
 		characterClasses = characterClassService.characterClassList();
-		characterList();
 	}
 
 	public void insert() {
@@ -175,8 +152,8 @@ public class CharacterController implements Serializable {
 	}
 
 	public void persistCharacter() {
+		character.setUser(userController.getLoggedUser());
 		if (include) {
-			UserController.getLoggedUser();
 			characterService.insert(character);
 		} else {
 			characterService.alter(character);
@@ -188,6 +165,9 @@ public class CharacterController implements Serializable {
 
 	public void remove(int characterId) {
 		characterService.remove(new Character(characterId));
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Personagem excluído com sucesso!", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		criarNova();
 	}
 
 	public void findByName() {

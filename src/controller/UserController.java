@@ -38,8 +38,6 @@ public class UserController implements Serializable {
 
 	private List<State> states;
 	
-	private List<User> users;   
-	
 	private User user;
 	
 	private City city;
@@ -87,7 +85,7 @@ public class UserController implements Serializable {
 	public void doLogin(String page) throws Exception {
 
 		User userFound = (User) userService.loginVerify(email, password);
-
+		
 		if (userFound == null) {
 			logged=false;
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário ou senha inválidos!", null);
@@ -135,14 +133,8 @@ public class UserController implements Serializable {
 		selectedState = null;
 		states = stateService.stateList();
 		cities = new ArrayList<City>();
-		userList();
 	}
 	
-	private void userList() {
-		users = userService.userList();
-		
-	}
-
 	public void criarNova() {
 		init();
 		refresh();
@@ -212,9 +204,6 @@ public class UserController implements Serializable {
 		this.logged = logged;
 	}
 	
-	public void listarPessoas() {
-		users = userService.userList();
-	}
 	public boolean isInclusao() {
 		return inclusao;
 	}

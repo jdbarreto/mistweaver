@@ -25,16 +25,6 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		// Captura o ManagedBean CDI chamado “loginController”
-		// LoginController loginController = (LoginController)
-		// ((HttpServletRequest) request)
-		// .getSession()
-		// .getAttribute("loginController");
-
-		// Verifica se nosso ManagedBean ainda não
-		// foi instanciado ou caso a
-		// variável loggedIn seja false, assim saberemos que
-		// o usuário não está logado
 		if (!loginController.isLogged()) {
 			String contextPath = ((HttpServletRequest) request).getContextPath();
 			// Redirecionamos o usuário imediatamente

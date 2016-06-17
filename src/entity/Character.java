@@ -15,8 +15,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity(name = "Characters")
-@NamedQueries(value = { @NamedQuery(name = "Characters.findAll", query = "select c from Characters c"),
-		@NamedQuery(name = "Characters.findById", query = "SELECT c FROM Characters c WHERE c.id = :id") })
+@NamedQueries(value = { 
+		@NamedQuery(name = "Characters.findAll", query = "select c from Characters c"),
+		@NamedQuery(name = "Characters.findById", query = "SELECT c FROM Characters c WHERE c.id = :id"),
+		@NamedQuery(name = "Characters.findByUserId", query = "SELECT c FROM Characters c WHERE c.user.id = :id")
+})
 public class Character implements Serializable {
 
 	private static final long serialVersionUID = 1L;

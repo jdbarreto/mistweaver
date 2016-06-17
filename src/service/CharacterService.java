@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import entity.Character;
+import entity.User;
 
 @ApplicationScoped
 @SuppressWarnings("unchecked")
@@ -21,11 +22,12 @@ public class CharacterService {
 	public void insert(Character character) {
 		character.setCreateDate(new Date());
 		em.persist(character);
-		}
+	}
 
 	@Transactional
-	public List<Character> characterList() {
-		Query q = em.createNamedQuery("Characters.findAll");
+	public List<Character> characterList(User user) {
+		Query q = em.createNamedQuery("Characters.findByUserId");
+		q.setParameter("id", user.getId());
 		return q.getResultList();
 	}
 
@@ -40,11 +42,11 @@ public class CharacterService {
 	}
 
 	public Character findByName(String characterName) {
-		 Query q = em.createNamedQuery("Characters.findByName");
-		 q.setMaxResults(1);
-		 q.setParameter("characterName", characterName+"%");
-		 Character character = (Character) q.getSingleResult();
-		 return character;
+		Query q = em.createNamedQuery("Characters.findByName");
+		q.setMaxResults(1);
+		q.setParameter("characterName", characterName + "%");
+		Character character = (Character) q.getSingleResult();
+		return character;
 	}
 
 }
