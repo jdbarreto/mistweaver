@@ -48,10 +48,13 @@ public class CharacterController implements Serializable {
 	private RaceService raceService;
 
 	private String characterName;
+	
+	private String characterSex;
 
 	private Race race;
 
 	private CharacterClass characterClass;
+	
 
 	public Character getCharacter() {
 		return character;
@@ -137,6 +140,14 @@ public class CharacterController implements Serializable {
 	public void setCharacterClass(CharacterClass characterClass) {
 		this.characterClass = characterClass;
 	}
+	
+	public String getCharacterSex() {
+		return characterSex;
+	}
+
+	public void setCharacterSex(String characterSex) {
+		this.characterSex = characterSex;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -170,18 +181,17 @@ public class CharacterController implements Serializable {
 		criarNova();
 	}
 
-	public void findByName() {
-		characterService.findByName(characterName);
+	public void findById(int characterId) {
+		character = characterService.findById(new Character (characterId));
 		characterName = character.getCharacterName();
-		character = characterService.findByName(characterName);
+		characterSex = character.getCharacterSex();
 		race = character.getRace();
 		characterClass = character.getCharacterClass();
 		include = false;
 	}
-
+	
 	public void alter() {
 		characterService.alter(character);
-		// criarNova();
 	}
 
 	private void refresh() {

@@ -37,16 +37,14 @@ public class CharacterService {
 	}
 
 	@Transactional
-	public void alter(Character Character) {
-		em.merge(Character);
+	public void alter(Character character) {
+		em.merge(character);
 	}
-
-	public Character findByName(String characterName) {
-		Query q = em.createNamedQuery("Characters.findByName");
-		q.setMaxResults(1);
-		q.setParameter("characterName", characterName + "%");
-		Character character = (Character) q.getSingleResult();
-		return character;
+	
+	@Transactional
+	public Character findById(Character character) {
+		Query q = em.createNamedQuery("Characters.findById");
+		q.setParameter("id", character.getId());
+		return (Character) q.getSingleResult();
 	}
-
 }

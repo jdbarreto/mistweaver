@@ -23,8 +23,6 @@ import javax.persistence.TemporalType;
 public class Character implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String FIND_ALL = "Characters.findAll";
-	public static final String FIND_BY_ID = "Characters.findById";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

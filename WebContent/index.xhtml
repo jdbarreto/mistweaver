@@ -18,11 +18,11 @@ body {
 </h:head>
 <h:body>
 	<div align="center">
-		<p:layout style="min-width:1020px;max-width:1020px" fullPage="true">
-			<p:layoutUnit position="north" resizable="true">
+		<p:layout fullPage="true">
+			<p:layoutUnit position="north" size="180">
 				<h:graphicImage url="/images/topo.png" />
 			</p:layoutUnit>
-
+			
 			<p:layoutUnit position="west" size="220">
 				<h:form id="frmMenu">
 					<p:panel id="pnlUsuario" rendered="#{userController.logged}">
@@ -62,8 +62,6 @@ body {
 					</p:panel>
 				</h:form>
 			</p:layoutUnit>
-
-			<!-- 		Inicia meio! -->
 			<p:layoutUnit position="center" id="centro">
 				<h:form id="frmConteudo" enctype="multipart/form-data">
 					<p:panel id="pnlConteudo">
@@ -71,8 +69,7 @@ body {
 					</p:panel>
 				</h:form>
 			</p:layoutUnit>
-			<!--		 Fim meio -->
-			<p:layoutUnit position="south">
+			<p:layoutUnit position="south" size="50">
                Jessye's Project 2016
 			</p:layoutUnit>
 		</p:layout>

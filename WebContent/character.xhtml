@@ -49,13 +49,13 @@
 
 			</h:panelGrid>
 			<h:panelGrid columns="2">
+				<p:commandButton value="Novo" id="btnNovo"
+					actionListener="#{characterController.criarNova}" process="@this"
+					update="@form, growl">
+				</p:commandButton>
 				<p:commandButton value="Salvar" id="btnSalvar"
 					actionListener="#{characterController.persistCharacter}"
 					process="@form" update="@form,characterTable">
-				</p:commandButton>
-				<p:commandButton value="Nova" id="btnNovo"
-					actionListener="#{characterController.criarNova}" process="@this"
-					update="@form, growl">
 				</p:commandButton>
 			</h:panelGrid>
 		</h:panelGrid>
@@ -89,9 +89,10 @@
 						icon="ui-icon-alert" />
 				</p:commandButton>
 
-				<p:commandButton value="Alterar personagem"
+				<p:commandButton value="Alterar personagem" id="btnAlterar"
 					update="@form,characterTable"
-					action="#{characterController.alter(character)}" />
+					action="#{characterController.findById(character.id)}"
+					process="@this" />
 			</p:column>
 		</p:dataTable>
 		<!-- 		</h:form> -->
